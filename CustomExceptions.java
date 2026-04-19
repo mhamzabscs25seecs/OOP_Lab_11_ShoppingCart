@@ -1,45 +1,66 @@
 package Lab_11;
 
-class CustomExceptions {
-    
-}
-
 class ProductNotFoundException extends Exception {
-    private int productId;
+    private final int productId;
 
-    public ProductNotFoundException (int id) {
-        super("Product not found");
-        this.productId = id;
+    public ProductNotFoundException(int productId) {
+        super("Product with id " + productId + " was not found in the cart.");
+        this.productId = productId;
     }
 
-    // Getter
-    public int getProductId () { return this.productId;}
-
+    public int getProductId() {
+        return productId;
+    }
 }
 
 class InsufficientStockException extends Exception {
-    private int stock;
+    private final String productName;
+    private final int requested;
+    private final int available;
 
-    public InsufficientStockException (int stock) {
-        super("Insufficient Stock");
-    }   
-    
+    public InsufficientStockException(String productName, int requested, int available) {
+        super("Insufficient stock for " + productName + ". Requested: " + requested + ", Available: " + available);
+        this.productName = productName;
+        this.requested = requested;
+        this.available = available;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public int getRequested() {
+        return requested;
+    }
+
+    public int getAvailable() {
+        return available;
+    }
 }
 
+class InvalidQuantityException extends Exception {
+    private final int quantity;
 
-public class test {
+    public InvalidQuantityException(int quantity) {
+        super("Invalid quantity: " + quantity + ". Quantity must be greater than 0.");
+        this.quantity = quantity;
+    }
 
-    public static void main (String [] args) {
-        try {
+    public int getQuantity() {
+        return quantity;
+    }
+}
 
-    if (true) {
-        throw new InsufficientStockException (10);
+class EmptyCartException extends Exception {
+
+    public EmptyCartException() {
+        super("Checkout Failed! Empty cart!");
     }
 
 }
 
-catch (InsufficientStockException e) {
-    System.out.println(e.getMessage());
-}
+class InvalidPaymentException extends Exception {
+    public InvalidPaymentException(String message) {
+        super(message);
     }
 }
